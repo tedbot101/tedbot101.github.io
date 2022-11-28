@@ -1,8 +1,342 @@
-<h1>Enumeration</h1>
-
-crackmapexec 
-enum4lin
-nmap
-wappalyzer
-smbclient
-smbmap
+<!DOCTYPE html>
+<head>
+   <!-- Latest compiled and minified CSS -->
+   <link rel="stylesheet" href="../css/bootstrap.min.css">
+   <!-- Optional theme -->
+   <link rel="stylesheet" href="../css/bootstrap-theme.min.css">
+   <!-- Latest compiled and minified JavaScript -->
+   <script src="../js/bootstrap.min.js"></script>
+</head>
+<body>
+   <h1>Enumeration Tools</h1>
+   
+   crackmapexec <br>
+   enum4lin<br>
+   nmap<br>
+   wappalyzer<br>
+   smbclient<br>
+   smbmap<br>
+   
+   <h2 id="infrastructure-based-enumeration">Infrastructure-based Enumeration</h2>
+   <table>
+      <thead>
+         <tr>
+            <th><strong>Command</strong></th>
+            <th><strong>Description</strong></th>
+         </tr>
+      </thead>
+      <tbody>
+         <tr>
+            <td>
+               curl -s https://crt.sh/\?q\=
+               <target-domain>
+               \&output\=json \| jq .
+            </td>
+            <td>Certificate transparency.</td>
+         </tr>
+         <tr>
+            <td><code>for i in $(cat ip-addresses.txt);do shodan host $i;done</code></td>
+            <td>Scan each IP address in a list using Shodan.</td>
+         </tr>
+      </tbody>
+   </table>
+   <hr>
+   <h2 id="host-based-enumeration">Host-based Enumeration</h2>
+   <h5 id="ftp">FTP</h5>
+   <table>
+      <thead>
+         <tr>
+            <th><strong>Command</strong></th>
+            <th><strong>Description</strong></th>
+         </tr>
+      </thead>
+      <tbody>
+         <tr>
+            <td><code>ftp &lt;FQDN/IP&gt;</code></td>
+            <td>Interact with the FTP service on the target.</td>
+         </tr>
+         <tr>
+            <td><code>nc -nv &lt;FQDN/IP&gt; 21</code></td>
+            <td>Interact with the FTP service on the target.</td>
+         </tr>
+         <tr>
+            <td><code>telnet &lt;FQDN/IP&gt; 21</code></td>
+            <td>Interact with the FTP service on the target.</td>
+         </tr>
+         <tr>
+            <td><code>openssl s_client -connect &lt;FQDN/IP&gt;:21 -starttls ftp</code></td>
+            <td>Interact with the FTP service on the target using encrypted connection.</td>
+         </tr>
+         <tr>
+            <td><code>wget -m --no-passive ftp://anonymous:anonymous@&lt;target&gt;</code></td>
+            <td>Download all available files on the target FTP server.</td>
+         </tr>
+      </tbody>
+   </table>
+   <h5 id="smb">SMB</h5>
+   <table>
+      <thead>
+         <tr>
+            <th><strong>Command</strong></th>
+            <th><strong>Description</strong></th>
+         </tr>
+      </thead>
+      <tbody>
+         <tr>
+            <td><code>smbclient -N -L //&lt;FQDN/IP&gt;</code></td>
+            <td>Null session authentication on SMB.</td>
+         </tr>
+         <tr>
+            <td><code>smbclient //&lt;FQDN/IP&gt;/&lt;share&gt;</code></td>
+            <td>Connect to a specific SMB share.</td>
+         </tr>
+         <tr>
+            <td><code>rpcclient -U &quot;&quot; &lt;FQDN/IP&gt;</code></td>
+            <td>Interaction with the target using RPC.</td>
+         </tr>
+         <tr>
+            <td><code>samrdump.py &lt;FQDN/IP&gt;</code></td>
+            <td>Username enumeration using Impacket scripts.</td>
+         </tr>
+         <tr>
+            <td><code>smbmap -H &lt;FQDN/IP&gt;</code></td>
+            <td>Enumerating SMB shares.</td>
+         </tr>
+         <tr>
+            <td><code>crackmapexec smb &lt;FQDN/IP&gt; --shares -u &#39;&#39; -p &#39;&#39;</code></td>
+            <td>Enumerating SMB shares using null session authentication.</td>
+         </tr>
+         <tr>
+            <td><code>enum4linux-ng.py &lt;FQDN/IP&gt; -A</code></td>
+            <td>SMB enumeration using enum4linux.</td>
+         </tr>
+      </tbody>
+   </table>
+   <h5 id="nfs">NFS</h5>
+   <table>
+      <thead>
+         <tr>
+            <th><strong>Command</strong></th>
+            <th><strong>Description</strong></th>
+         </tr>
+      </thead>
+      <tbody>
+         <tr>
+            <td><code>showmount -e &lt;FQDN/IP&gt;</code></td>
+            <td>Show available NFS shares.</td>
+         </tr>
+         <tr>
+            <td><code>mount -t nfs &lt;FQDN/IP&gt;:/&lt;share&gt; ./target-NFS/ -o nolock</code></td>
+            <td>Mount the specific NFS share.umount ./target-NFS</td>
+         </tr>
+         <tr>
+            <td><code>umount ./target-NFS</code></td>
+            <td>Unmount the specific NFS share.</td>
+         </tr>
+      </tbody>
+   </table>
+   <h5 id="dns">DNS</h5>
+   <table>
+      <thead>
+         <tr>
+            <th><strong>Command</strong></th>
+            <th><strong>Description</strong></th>
+         </tr>
+      </thead>
+      <tbody>
+         <tr>
+            <td><code>dig ns &lt;domain.tld&gt; @&lt;nameserver&gt;</code></td>
+            <td>NS request to the specific nameserver.</td>
+         </tr>
+         <tr>
+            <td><code>dig any &lt;domain.tld&gt; @&lt;nameserver&gt;</code></td>
+            <td>ANY request to the specific nameserver.</td>
+         </tr>
+         <tr>
+            <td><code>dig axfr &lt;domain.tld&gt; @&lt;nameserver&gt;</code></td>
+            <td>AXFR request to the specific nameserver.</td>
+         </tr>
+         <tr>
+            <td><code>dnsenum --dnsserver &lt;nameserver&gt; --enum -p 0 -s 0 -o found_subdomains.txt -f ~/subdomains.list &lt;domain.tld&gt;</code></td>
+            <td>Subdomain brute forcing.</td>
+         </tr>
+      </tbody>
+   </table>
+   <h5 id="smtp">SMTP</h5>
+   <table>
+      <thead>
+         <tr>
+            <th><strong>Command</strong></th>
+            <th><strong>Description</strong></th>
+         </tr>
+      </thead>
+      <tbody>
+         <tr>
+            <td><code>telnet &lt;FQDN/IP&gt; 25</code></td>
+            <td></td>
+            <td>banner grabbing</td>
+         </tr>
+         <tr>
+            <td><code>sudo nmap 10.129.14.128 -p25 --script smtp-open-relay -v</code></td>
+            <td></td>
+            <td>open relay futher enum</td>
+         </tr>
+      </tbody>
+   </table>
+   <h5 id="imap-pop3">IMAP/POP3</h5>
+   <table>
+      <thead>
+         <tr>
+            <th><strong>Command</strong></th>
+            <th><strong>Description</strong></th>
+         </tr>
+      </thead>
+      <tbody>
+         <tr>
+            <td><code>curl -k &#39;imaps://&lt;FQDN/IP&gt;&#39; --user &lt;user&gt;:&lt;password&gt;</code></td>
+            <td>Log in to the IMAPS service using cURL.</td>
+         </tr>
+         <tr>
+            <td><code>openssl s_client -connect &lt;FQDN/IP&gt;:imaps</code></td>
+            <td>Connect to the IMAPS service.</td>
+         </tr>
+         <tr>
+            <td><code>openssl s_client -connect &lt;FQDN/IP&gt;:pop3s</code></td>
+            <td>Connect to the POP3s service.</td>
+         </tr>
+         <tr>
+            <td><code>nmap -p 143,993 --script imap-brute 10.129.166.255</code></td>
+            <td>IMAP brute forcing</td>
+         </tr>
+      </tbody>
+   </table>
+   <h5 id="snmp">SNMP</h5>
+   <table>
+      <thead>
+         <tr>
+            <th><strong>Command</strong></th>
+            <th><strong>Description</strong></th>
+         </tr>
+      </thead>
+      <tbody>
+         <tr>
+            <td><code>snmpwalk -v2c -c &lt;community string&gt; &lt;FQDN/IP&gt;</code></td>
+            <td>Querying OIDs using snmpwalk.</td>
+         </tr>
+         <tr>
+            <td><code>onesixtyone -c community-strings.list &lt;FQDN/IP&gt;</code></td>
+            <td>Bruteforcing community strings of the SNMP service.</td>
+         </tr>
+         <tr>
+            <td><code>braa &lt;community string&gt;@&lt;FQDN/IP&gt;:.1.*</code></td>
+            <td>Bruteforcing SNMP service OIDs.</td>
+         </tr>
+      </tbody>
+   </table>
+   <h5 id="mysql">MySQL</h5>
+   <table>
+      <thead>
+         <tr>
+            <th><strong>Command</strong></th>
+            <th><strong>Description</strong></th>
+         </tr>
+      </thead>
+      <tbody>
+         <tr>
+            <td><code>mysql -u &lt;user&gt; -p&lt;password&gt; &lt;FQDN/IP&gt;</code></td>
+            <td>Login to the MySQL server.</td>
+         </tr>
+      </tbody>
+   </table>
+   <h5 id="mssql">MSSQL</h5>
+   <table>
+      <thead>
+         <tr>
+            <th><strong>Command</strong></th>
+            <th><strong>Description</strong></th>
+         </tr>
+      </thead>
+      <tbody>
+         <tr>
+            <td></td>
+         </tr>
+      </tbody>
+   </table>
+   <p>sudo nmap --script ms-sql-info,ms-sql-empty-password,ms-sql-xp-cmdshell,ms-sql-config,ms-sql-ntlm-info,ms-sql-tables,ms-sql-hasdbaccess,ms-sql-dac,ms-sql-dump-hashes --script-args mssql.instance-port=1433,mssql.username=sa,mssql.password=,mssql.instance-name=MSSQLSERVER -sV -p 1433 10.129.201.248 | Nmap |
+      | <code>mssqlclient.py &lt;user&gt;@&lt;FQDN/IP&gt; -windows-auth</code> | Log in to the MSSQL server using Windows authentication. |
+   </p>
+   <h5 id="ipmi">IPMI</h5>
+   <table>
+      <thead>
+         <tr>
+            <th><strong>Command</strong></th>
+            <th><strong>Description</strong></th>
+         </tr>
+      </thead>
+      <tbody>
+         <tr>
+            <td><code>msf6 auxiliary(scanner/ipmi/ipmi_version)</code></td>
+            <td>IPMI version detection.</td>
+         </tr>
+         <tr>
+            <td><code>msf6 auxiliary(scanner/ipmi/ipmi_dumphashes)</code></td>
+            <td>Dump IPMI hashes.</td>
+         </tr>
+      </tbody>
+   </table>
+   <h5 id="linux-remote-management">Linux Remote Management</h5>
+   <table>
+      <thead>
+         <tr>
+            <th><strong>Command</strong></th>
+            <th><strong>Description</strong></th>
+         </tr>
+      </thead>
+      <tbody>
+         <tr>
+            <td><code>ssh-audit.py &lt;FQDN/IP&gt;</code></td>
+            <td>Remote security audit against the target SSH service.</td>
+         </tr>
+         <tr>
+            <td><code>ssh &lt;user&gt;@&lt;FQDN/IP&gt;</code></td>
+            <td>Log in to the SSH server using the SSH client.</td>
+         </tr>
+         <tr>
+            <td><code>ssh -i private.key &lt;user&gt;@&lt;FQDN/IP&gt;</code></td>
+            <td>Log in to the SSH server using private key.</td>
+         </tr>
+         <tr>
+            <td><code>ssh &lt;user&gt;@&lt;FQDN/IP&gt; -o PreferredAuthentications=password</code></td>
+            <td>Enforce password-based authentication.</td>
+         </tr>
+      </tbody>
+   </table>
+   <h5 id="windows-remote-management">Windows Remote Management</h5>
+   <table>
+      <thead>
+         <tr>
+            <th><strong>Command</strong></th>
+            <th><strong>Description</strong></th>
+         </tr>
+      </thead>
+      <tbody>
+         <tr>
+            <td><code>rdp-sec-check.pl &lt;FQDN/IP&gt;</code></td>
+            <td>Check the security settings of the RDP service.</td>
+         </tr>
+         <tr>
+            <td><code>xfreerdp /u:&lt;user&gt; /p:&quot;&lt;password&gt;&quot; /v:&lt;FQDN/IP&gt;</code></td>
+            <td>Log in to the RDP server from Linux.</td>
+         </tr>
+         <tr>
+            <td><code>evil-winrm -i &lt;FQDN/IP&gt; -u &lt;user&gt; -p &lt;password&gt;</code></td>
+            <td>Log in to the WinRM server.</td>
+         </tr>
+         <tr>
+            <td><code>wmiexec.py &lt;user&gt;:&quot;&lt;password&gt;&quot;@&lt;FQDN/IP&gt; &quot;&lt;system command&gt;&quot;</code></td>
+            <td>Execute command using the WMI service.</td>
+         </tr>
+      </tbody>
+   </table>
+</body>
+</html>
