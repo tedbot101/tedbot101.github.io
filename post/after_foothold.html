@@ -1,0 +1,24 @@
+<h1>Foothold Checklist</h1>
+
+<h2>Spawn Shell</h2>
+1. python3 -c 'import pty;pty.spawn("/bin/bash")'    /python spawn shell
+2. /bin/bash
+3. /bin/sh
+<br>
+
+<h2>Chesklist for Linux</h2>
+
+uname -a
+sudo -l             / check the command able to run as root
+sudo -s             / if there is only one user
+# Check for misconfiguration
+find / -user root -perm -4000 -exec ls -ldb {} \; 2>/dev/null 
+
+linpea.sh link: <a href="tools/linpea.sh">Foot Hold</a>
+
+<h1>Privilege Escalation Checklist</h1>
+
+
+
+
+Link :<a href="https://gtfobins.github.io">gtfo.bin</a>
