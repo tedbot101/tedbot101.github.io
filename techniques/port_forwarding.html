@@ -1,1 +1,7 @@
 <h1>Port Forwarding </h1>
+
+<h2>Chisel Port forwardning</h2>
+./chisel_1.7.6_linux_amd64 server -p 12312 --reverse                        #Server -- Attacker
+./chisel_1.7.6_linux_amd64 client 10.10.14.20:12312 R:4505:127.0.0.1:4505   #Client -- Victim
+
+<h2>SSH port forwarding</h2>
