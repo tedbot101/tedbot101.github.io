@@ -12,12 +12,18 @@ uname -a<br>
 sudo -l             / check the command able to run as root<br>
 sudo -s             / if there is only one user<br>
 # Check for misconfiguration<br>
+
+<h2>SUID</h2>
 find / -user root -perm -4000 -exec ls -ldb {} \; 2>/dev/null <br>
 
 linpea.sh link: <a href="../tools/linpea.sh">Foot Hold</a>
 
-<h1>Privilege Escalation Checklist</h1>
+<h2>Docker </h2>
 
+docker run -v /:/mnt --rm -it alpine chroot /mnt sh<br>
+
+<h1>Linux Privilege Escalation Checklist</h1>
+1. Check if GCC is present
 
 
 
